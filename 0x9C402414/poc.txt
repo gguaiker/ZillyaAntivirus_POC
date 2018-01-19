@@ -1,0 +1,25 @@
+
+
+#include "targetver.h"
+#include <stdio.h>
+#include <tchar.h>
+#include <windows.h>
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	HANDLE m_handle = 0;
+	DWORD nbBytes = 0;
+	int i = 1;
+	m_handle = CreateFileA("\\\\.\\EvFilterTest", GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	while(i++)
+	{
+		char *szSendBuf = new char[i]; 
+		DeviceIoControl(m_handle, 0x9C402414, szSendBuf, i, (LPVOID)szSendBuf, i, &nbBytes, NULL);
+		delete[] szSendBuf;
+	}
+	return 0;
+}
+
+
